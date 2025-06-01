@@ -130,12 +130,7 @@ class SiameseTrainDataGenerator(tf.keras.utils.Sequence):
         img = tf.keras.preprocessing.image.load_img(img_path, target_size=None, interpolation='bilinear')
         img = img.resize(self.img_size, resample=Image.BILINEAR)
         img = tf.keras.preprocessing.image.img_to_array(img)
-        # img_eroded = cv2.erode(img, None, iterations=1)
-        # img = cv2.dilate(img_eroded, None, iterations=1)
-        # img = img.astype(np.uint8)
-        # img = cv2.fastNlMeansDenoisingColored(img, None, h=10, hColor=10, templateWindowSize=7, searchWindowSize=21)
-
-
+    
         img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         img_gray_u = img_gray.astype(np.uint8) # Convert to 8-bit unsigned integer
 
@@ -320,11 +315,6 @@ class SiameseTestDataGenerator(tf.keras.utils.Sequence):
         img = tf.keras.preprocessing.image.load_img(img_path, target_size=None, interpolation='bilinear')
         img = img.resize(self.img_size, resample=Image.BILINEAR)
         img = tf.keras.preprocessing.image.img_to_array(img)
-        # img_eroded = cv2.erode(img, None, iterations=1)
-        # img = cv2.dilate(img_eroded, None, iterations=1)
-        # img = img.astype(np.uint8)
-        # img = cv2.fastNlMeansDenoisingColored(img, None, h=10, hColor=10, templateWindowSize=7, searchWindowSize=21)
-
 
         img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         img_gray_u = img_gray.astype(np.uint8) # Convert to 8-bit unsigned integer
@@ -510,18 +500,18 @@ callbacks = [earlystop, checkpoint, reduce_lr]
 
 """
 
-# # Check if the model exists in the specified directory
-# # if os.path.exists(path_save_model):
-# if(False):
-#     # Load the model and continue training
-#     with custom_object_scope({'Distance': Distance}):
-#       saved_model = load_model(path_save_model)
-#     saved_model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.000001), metrics=['accuracy'])
-#     saved_model.fit(train_data_generator, validation_data=Validation_data_generator, epochs=30, callbacks=callbacks)
-# else:
-#   # Train a new model from scratch
-#   siamese_model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.00001), metrics=['accuracy'])
-#   siamese_model.fit(train_data_generator, validation_data=Validation_data_generator, epochs=30, callbacks=callbacks)
+# Check if the model exists in the specified directory
+# if os.path.exists(path_save_model):
+if(False):
+    # Load the model and continue training
+    with custom_object_scope({'Distance': Distance}):
+      saved_model = load_model(path_save_model)
+    saved_model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.000001), metrics=['accuracy'])
+    saved_model.fit(train_data_generator, validation_data=Validation_data_generator, epochs=30, callbacks=callbacks)
+else:
+  # Train a new model from scratch
+  siamese_model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.00001), metrics=['accuracy'])
+  siamese_model.fit(train_data_generator, validation_data=Validation_data_generator, epochs=30, callbacks=callbacks)
 
 """### Load Model"""
 
